@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'register_user.dart';
+import 'add_complaint_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginUser extends StatefulWidget {
   @override
@@ -23,7 +25,7 @@ class _LoginUserState extends State<LoginUser> {
 
     setState(() => _isLoading = true);
 
-    const String apiUrl = "http://192.168.1.100:8000/api/auth/login";
+    const String apiUrl = "http://192.168.10.235:8000/api/auth/login";
 
     try {
       final response = await http.post(
@@ -42,9 +44,19 @@ class _LoginUserState extends State<LoginUser> {
 
       if (response.statusCode == 200 && responseData['success'] == true) {
         String name = responseData['data']['user']['name'];
+        String token = responseData['data']['token'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setString('username', name);
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text("أهلاً بك $name")));
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AddComplaintPage()),
+          );
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

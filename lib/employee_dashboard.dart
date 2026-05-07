@@ -68,18 +68,7 @@ class EmployeeDashboard extends StatelessWidget {
                     ),
                   );
                 },
-              ),Navigator.push(
-                     context,
-  MaterialPageRoute(
-    builder: (context) => const ResolvedComplaintDetailsScreen(
-      complaintData: {
-        'id': 1,
-        'type': 'مشكلة إنترنت',
-        'user_name': 'أحمد',
-      },
-    ),
-  ),
-);
+              ),
 
               // 2. كرت قيد المعالجة
               _buildDashboardItem(

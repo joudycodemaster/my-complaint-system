@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'login_user.dart';
 
 void main() {
   runApp(const MyApp());
@@ -253,9 +254,7 @@ class _RegisterUserState extends State<RegisterUser> {
                       // تم تغيير onPressed إلى onTap
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginUser(),
-                        ),
+                        MaterialPageRoute(builder: (context) => LoginUser()),
                       );
                     },
                     child: const Text(
@@ -296,125 +295,6 @@ class _RegisterUserState extends State<RegisterUser> {
         controller: controller,
         obscureText: secure,
         keyboardType: type,
-        textAlign: TextAlign.right,
-        decoration: InputDecoration(
-          hintText: hint,
-          suffixIcon: Icon(icon, color: Colors.grey),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// --- صفحة تسجيل الدخول ---
-class LoginUser extends StatefulWidget {
-  const LoginUser({super.key});
-
-  @override
-  _LoginUserState createState() => _LoginUserState();
-}
-
-class _LoginUserState extends State<LoginUser> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-
-  Future<void> _login() async {
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 2)); // محاكاة طلب الشبكة
-    setState(() => _isLoading = false);
-
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text("هذه الميزة ستفعل قريباً")));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("تسجيل الدخول")),
-      backgroundColor: const Color(0xFFE0F7FA),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.lock_open, size: 80, color: Color(0xFF00796B)),
-              const SizedBox(height: 20),
-              const Text(
-                "مرحباً بعودتك!",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF00796B),
-                ),
-              ),
-              const SizedBox(height: 30),
-              _loginInputField(
-                _emailController,
-                "البريد الإلكتروني",
-                Icons.email,
-              ),
-              _loginInputField(
-                _passwordController,
-                "كلمة المرور",
-                Icons.lock,
-                secure: true,
-              ),
-              const SizedBox(height: 30),
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00796B),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text(
-                          "دخول",
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("العودة لإنشاء حساب جديد"),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _loginInputField(
-    TextEditingController controller,
-    String hint,
-    IconData icon, {
-    bool secure = false,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: secure,
         textAlign: TextAlign.right,
         decoration: InputDecoration(
           hintText: hint,
